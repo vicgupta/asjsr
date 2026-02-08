@@ -24,7 +24,15 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single();
 
-  if (!profile) redirect("/login");
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <p className="text-muted-foreground">Loading your profile...</p>
+      </div>
+    );
+  }
+
+  const roles = profile.roles ?? [];
 
   return (
     <div className="space-y-6">
@@ -34,7 +42,7 @@ export default async function DashboardPage() {
         </h1>
         <p className="text-muted-foreground">
           Your roles:{" "}
-          {profile.roles.map((role) => (
+          {roles.map((role) => (
             <Badge key={role} variant="secondary" className="mr-1">
               {role}
             </Badge>
@@ -43,7 +51,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {profile.roles.includes("author") && (
+        {roles.includes("author") && (
           <Link href="/dashboard/submissions">
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
               <CardHeader>
@@ -56,7 +64,7 @@ export default async function DashboardPage() {
           </Link>
         )}
 
-        {profile.roles.includes("reviewer") && (
+        {roles.includes("reviewer") && (
           <Link href="/dashboard/reviews">
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
               <CardHeader>
@@ -69,7 +77,7 @@ export default async function DashboardPage() {
           </Link>
         )}
 
-        {profile.roles.includes("editor") && (
+        {roles.includes("editor") && (
           <Link href="/dashboard/editor">
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
               <CardHeader>
@@ -81,6 +89,17 @@ export default async function DashboardPage() {
             </Card>
           </Link>
         )}
+
+        <Link href="/dashboard/submissions/new">
+          <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+            <CardHeader>
+              <CardTitle className="text-lg">Submit Paper</CardTitle>
+              <CardDescription>
+                Submit a new manuscript for review
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
 
         <Link href="/dashboard/profile">
           <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
@@ -94,9 +113,7 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      {profile.roles.includes("editor") && (
-        <EditorMetrics />
-      )}
+      {roles.includes("editor") && <EditorMetrics />}
     </div>
   );
 }
@@ -123,11 +140,11 @@ async function EditorMetrics() {
   ]);
 
   const stats = [
-    { label: "Submitted", value: submittedCount || 0 },
-    { label: "Under Review", value: underReviewCount || 0 },
-    { label: "Accepted", value: acceptedCount || 0 },
-    { label: "Published", value: publishedCount || 0 },
-    { label: "Overdue Reviews", value: overdueReviews?.length || 0 },
+    { label: "Submitted", value: submittedCount ?? 0 },
+    { label: "Under Review", value: underReviewCount ?? 0 },
+    { label: "Accepted", value: acceptedCount ?? 0 },
+    { label: "Published", value: publishedCount ?? 0 },
+    { label: "Overdue Reviews", value: overdueReviews?.length ?? 0 },
   ];
 
   return (
