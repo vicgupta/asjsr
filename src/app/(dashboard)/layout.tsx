@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { Button } from "@/components/ui/button";
@@ -31,10 +32,27 @@ export default async function DashboardLayout({
       .single();
 
     profile = profileData;
+
+    // Auto-create profile if trigger didn't fire (migration not applied, etc.)
+    if (!profile) {
+      const admin = createAdminClient();
+      const { data: created } = await admin
+        .from("profiles")
+        .upsert({
+          id: user.id,
+          email: user.email ?? "",
+          full_name:
+            user.user_metadata?.full_name ??
+            user.user_metadata?.name ??
+            "",
+        })
+        .select()
+        .single();
+      profile = created;
+    }
   } catch (e) {
     // redirect() throws a special Next.js error — rethrow it
     if (e instanceof Error && e.message === "NEXT_REDIRECT") throw e;
-    // re-throw Next.js internal redirect
     if (
       e &&
       typeof e === "object" &&
@@ -61,28 +79,8 @@ export default async function DashboardLayout({
     );
   }
 
-  // Profile missing (trigger hasn't run yet or was deleted) —
-  // show a setup prompt instead of redirecting to /login (which causes a loop)
   if (!profile) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-4 max-w-md">
-          <h1 className="text-2xl font-bold">Setting up your account</h1>
-          <p className="text-muted-foreground">
-            Your profile is being created. Please refresh the page in a moment.
-            If this persists, try signing out and signing back in.
-          </p>
-          <div className="flex items-center justify-center gap-3">
-            <Link href="/dashboard">
-              <Button>Refresh</Button>
-            </Link>
-            <Link href="/">
-              <Button variant="outline">Go Home</Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    redirect("/login");
   }
 
   return (
