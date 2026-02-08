@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export async function PublicHeader() {
   let journalName = "Academic Journal";
@@ -44,6 +45,7 @@ export async function PublicHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           {user ? (
             <Link href="/dashboard">
               <Button size="sm">Dashboard</Button>

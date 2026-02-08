@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export async function DashboardHeader() {
   const supabase = await createClient();
@@ -23,6 +24,7 @@ export async function DashboardHeader() {
     <header className="h-14 border-b bg-card flex items-center justify-between px-6">
       <div />
       <div className="flex items-center gap-4">
+        <ThemeToggle />
         <Link href="/dashboard/notifications">
           <Button variant="ghost" size="sm" className="relative">
             Notifications

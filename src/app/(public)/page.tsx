@@ -114,7 +114,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── TRUST INDICATORS ──────────────────────────── */}
-      <section className="border-b bg-white">
+      <section className="border-b bg-background">
         <div className="container mx-auto px-6">
           <div
             className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border animate-fade-in-up"
@@ -143,11 +143,11 @@ export default async function HomePage() {
               },
             ].map((item) => (
               <div key={item.title} className="py-8 md:py-10 px-4 md:px-8 first:pl-0 last:pr-0">
-                <span className="inline-block text-[10px] font-mono font-semibold tracking-widest text-amber-600 bg-amber-50 px-2 py-0.5 rounded mb-3">
+                <span className="inline-block text-[10px] font-mono font-semibold tracking-widest text-amber-600 bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 rounded mb-3">
                   {item.mark}
                 </span>
-                <h3 className="text-sm font-semibold text-slate-900 mb-1">{item.title}</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                <h3 className="text-sm font-semibold text-foreground mb-1">{item.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -156,26 +156,26 @@ export default async function HomePage() {
 
       {/* ── LATEST PUBLICATIONS ───────────────────────── */}
       {publications.length > 0 && (
-        <section className="bg-stone-50/70 py-20 md:py-28">
+        <section className="bg-muted/30 py-20 md:py-28">
           <div className="container mx-auto px-6">
             <div className="flex items-end justify-between mb-12">
               <div>
                 <p className="text-xs font-medium tracking-[0.2em] uppercase text-amber-600 mb-3">
                   Recent Work
                 </p>
-                <h2 className="font-serif text-3xl md:text-4xl text-slate-900">
+                <h2 className="font-serif text-3xl md:text-4xl text-foreground">
                   Latest Publications
                 </h2>
               </div>
               <Link
                 href="/archive"
-                className="hidden md:inline-flex text-sm text-slate-500 hover:text-slate-900 transition-colors underline underline-offset-4 decoration-slate-300 hover:decoration-slate-900"
+                className="hidden md:inline-flex text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4 decoration-muted-foreground/30 hover:decoration-foreground"
               >
                 View all publications
               </Link>
             </div>
 
-            <div className="space-y-0 divide-y divide-slate-200/80">
+            <div className="space-y-0 divide-y divide-border">
               {publications.map((pub) => {
                 const submission = pub.submission as any;
                 if (!submission) return null;
@@ -189,17 +189,17 @@ export default async function HomePage() {
                   >
                     <article className="md:flex md:items-start md:gap-8">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-serif text-xl md:text-2xl text-slate-900 group-hover:text-amber-700 transition-colors leading-snug mb-2">
+                        <h3 className="font-serif text-xl md:text-2xl text-foreground group-hover:text-amber-700 dark:group-hover:text-amber-500 transition-colors leading-snug mb-2">
                           {submission.title}
                         </h3>
-                        <p className="text-sm text-slate-500 mb-3">
+                        <p className="text-sm text-muted-foreground mb-3">
                           {author?.full_name || "Unknown Author"}
                           {author?.affiliation && (
-                            <span className="text-slate-400">
+                            <span className="text-muted-foreground/70">
                               {" "}&mdash; {author.affiliation}
                             </span>
                           )}
-                          <span className="text-slate-300 mx-2">|</span>
+                          <span className="text-muted-foreground/40 mx-2">|</span>
                           {new Date(pub.published_at).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",
@@ -207,14 +207,14 @@ export default async function HomePage() {
                           })}
                           {pub.doi && (
                             <>
-                              <span className="text-slate-300 mx-2">|</span>
+                              <span className="text-muted-foreground/40 mx-2">|</span>
                               <span className="font-mono text-xs">
                                 {pub.doi}
                               </span>
                             </>
                           )}
                         </p>
-                        <p className="text-sm text-slate-500 leading-relaxed line-clamp-2">
+                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
                           {submission.abstract}
                         </p>
                         {submission.keywords?.length > 0 && (
@@ -223,7 +223,7 @@ export default async function HomePage() {
                               <Badge
                                 key={kw}
                                 variant="outline"
-                                className="text-[11px] text-slate-500 border-slate-200 bg-white font-normal"
+                                className="text-[11px] text-muted-foreground border-border bg-background font-normal"
                               >
                                 {kw}
                               </Badge>
@@ -231,7 +231,7 @@ export default async function HomePage() {
                           </div>
                         )}
                       </div>
-                      <div className="hidden md:flex items-center mt-2 text-slate-400 group-hover:text-amber-600 transition-colors shrink-0">
+                      <div className="hidden md:flex items-center mt-2 text-muted-foreground group-hover:text-amber-600 transition-colors shrink-0">
                         <svg
                           className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
                           fill="none"
@@ -264,13 +264,13 @@ export default async function HomePage() {
       )}
 
       {/* ── HOW IT WORKS ──────────────────────────────── */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-20 md:py-28 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-xs font-medium tracking-[0.2em] uppercase text-amber-600 mb-3">
               The Process
             </p>
-            <h2 className="font-serif text-3xl md:text-4xl text-slate-900">
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground">
               From Submission to Publication
             </h2>
           </div>
@@ -295,20 +295,20 @@ export default async function HomePage() {
             ].map((item, i) => (
               <div
                 key={item.step}
-                className="relative md:px-8 md:border-l md:border-slate-200 md:first:border-l-0"
+                className="relative md:px-8 md:border-l md:border-border md:first:border-l-0"
               >
                 <span className="font-mono text-[11px] font-semibold text-amber-500/70 tracking-wider">
                   {item.step}
                 </span>
-                <h3 className="font-serif text-2xl text-slate-900 mt-2 mb-3">
+                <h3 className="font-serif text-2xl text-foreground mt-2 mb-3">
                   {item.title}
                 </h3>
-                <p className="text-sm text-slate-500 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {item.desc}
                 </p>
                 {/* connector arrow (desktop) */}
                 {i < 2 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 text-slate-300">
+                  <div className="hidden md:block absolute top-1/2 -right-3 text-muted-foreground/40">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
@@ -321,36 +321,36 @@ export default async function HomePage() {
       </section>
 
       {/* ── FOR AUTHORS & REVIEWERS ───────────────────── */}
-      <section className="py-20 md:py-28 bg-stone-50/70 border-y border-stone-200/60">
+      <section className="py-20 md:py-28 bg-muted/30 border-y border-border">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
             <div className="space-y-5">
-              <span className="inline-block text-[10px] font-mono font-semibold tracking-widest text-amber-600 bg-amber-50 px-2.5 py-1 rounded">
+              <span className="inline-block text-[10px] font-mono font-semibold tracking-widest text-amber-600 bg-amber-50 dark:bg-amber-950/50 px-2.5 py-1 rounded">
                 FOR AUTHORS
               </span>
-              <h3 className="font-serif text-2xl md:text-3xl text-slate-900 leading-snug">
+              <h3 className="font-serif text-2xl md:text-3xl text-foreground leading-snug">
                 Share your research with the world
               </h3>
-              <p className="text-slate-500 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 Submit your manuscript and reach a global audience. Our streamlined
                 process takes you from submission to publication with full
                 transparency. Track your paper&apos;s status, respond to reviews, and
                 receive a DOI upon publication.
               </p>
               <Link href="/register">
-                <Button className="bg-slate-900 hover:bg-slate-800 text-white mt-2 cursor-pointer">
+                <Button className="mt-2 cursor-pointer">
                   Create Author Account
                 </Button>
               </Link>
             </div>
             <div className="space-y-5">
-              <span className="inline-block text-[10px] font-mono font-semibold tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded">
+              <span className="inline-block text-[10px] font-mono font-semibold tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-950/50 px-2.5 py-1 rounded">
                 FOR REVIEWERS
               </span>
-              <h3 className="font-serif text-2xl md:text-3xl text-slate-900 leading-snug">
+              <h3 className="font-serif text-2xl md:text-3xl text-foreground leading-snug">
                 Contribute your expertise
               </h3>
-              <p className="text-slate-500 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 Join our community of peer reviewers. Read manuscripts in an
                 embedded PDF viewer, submit your expert assessment, and help
                 shape the direction of scholarly discourse. Review assignments
